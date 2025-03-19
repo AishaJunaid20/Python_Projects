@@ -1,3 +1,4 @@
+import streamlit as st
 import random
 
 # List of Growth Mindset Challenges
@@ -13,27 +14,19 @@ challenges = [
     "Write down three things you learned this week and how they helped you grow."
 ]
 
+# Function to get a random challenge
 def get_random_challenge():
-    """Returns a random challenge from the list."""
     return random.choice(challenges)
 
-def save_challenge(challenge):
-    """Saves the accepted challenge to a file for tracking progress."""
-    with open("challenges.txt", "a") as file:
-        file.write(challenge + "\n")
+# Streamlit UI
+st.title("🌱 Growth Mindset Challenge")
+st.subheader("Develop a growth mindset by taking on daily challenges!")
 
-def main():
-    print("\n🌱 Welcome to the Growth Mindset Challenge! 🌱")
+if st.button("Get a Challenge 🎯"):
     challenge = get_random_challenge()
-    print(f"\n✨ Your challenge for today: \n➡️ {challenge}")
+    st.write(f"### ✨ Your Challenge: \n➡️ **{challenge}**")
 
-    user_input = input("\nDo you accept this challenge? (yes/no): ").strip().lower()
-
-    if user_input in ["yes", "y"]:
-        save_challenge(challenge)
-        print("\n✅ Great! Keep growing and challenging yourself! Your progress is saved. 💪")
-    else:
-        print("\n❌ No worries! Come back tomorrow for a new challenge. 😊")
-
-if __name__ == "__main__":
-    main()
+    if st.button("Accept Challenge ✅"):
+        with open("challenges.txt", "a") as file:
+            file.write(challenge + "\n")
+        st.success("✅ Challenge Accepted! Keep growing! 💪")
