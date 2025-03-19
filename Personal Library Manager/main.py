@@ -1,25 +1,4 @@
-import streamlit as st
-import json
-import os
-from tabulate import tabulate
 
-# File to store books
-FILE_NAME = "library.json"
-
-# Load books from JSON
-def load_books():
-    if os.path.exists(FILE_NAME):
-        with open(FILE_NAME, "r", encoding="utf-8") as file:
-            return json.load(file)
-    return []
-
-# Save books to JSON
-def save_books(books):
-    with open(FILE_NAME, "w", encoding="utf-8") as file:
-        json.dump(books, file, indent=4)
-
-# Display books
-def display_books():
     books = load_books()
     
     if not books:
