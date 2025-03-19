@@ -14,19 +14,31 @@ challenges = [
     "Write down three things you learned this week and how they helped you grow."
 ]
 
-# Function to get a random challenge
-def get_random_challenge():
-    return random.choice(challenges)
+# Initialize session state for challenge and accepted status
+if "challenge" not in st.session_state:
+    st.session_state.challenge = None
+if "accepted" not in st.session_state:
+    st.session_state.accepted = False
 
 # Streamlit UI
 st.title("🌱 Growth Mindset Challenge")
 st.subheader("Develop a growth mindset by taking on daily challenges!")
 
+# Button to get a new challenge
 if st.button("Get a Challenge 🎯"):
-    challenge = get_random_challenge()
-    st.write(f"### ✨ Your Challenge: \n➡️ **{challenge}**")
+    st.session_state.challenge = random.choice(challenges)
+    st.session_state.accepted = False  # Reset accepted status
 
+# Show challenge if selected
+if st.session_state.challenge:
+    st.write(f"### ✨ Your Challenge: \n➡️ **{st.session_state.challenge}**")
+
+    # Accept Challenge button
     if st.button("Accept Challenge ✅"):
         with open("challenges.txt", "a") as file:
-            file.write(challenge + "\n")
-        st.success("✅ Challenge Accepted! Keep growing! 💪")
+            file.write(st.session_state.challenge + "\n")
+        st.session_state.accepted = True  # Store acceptance status
+
+# Show confirmation after accepting
+if st.session_state.accepted:
+    st.success("✅ Challenge Accepted! Keep growing! 💪")
