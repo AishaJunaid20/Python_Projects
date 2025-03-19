@@ -44,10 +44,6 @@ def check_password_strength(password):
 st.title("🔐 Advanced Password Strength Meter")
 st.subheader("Check the strength of your password in real-time!")
 
-# Toggle Password Visibility
-show_password = st.checkbox("👁 Show Password")
-password = st.text_input("Enter your password:", type="text" if show_password else "password")
-
 if password:
     strength_label, feedback, strength_score = check_password_strength(password)
     
