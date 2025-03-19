@@ -1,8 +1,8 @@
 import streamlit as st
 import re
 
+# Function to check password strength
 def check_password_strength(password):
-    """Returns a score based on password strength"""
     strength = 0
     feedback = []
 
@@ -32,19 +32,31 @@ def check_password_strength(password):
 
     # Determine Strength Level
     if strength == 4:
-        return "🟢 Strong Password ✅", "Your password is strong! 💪"
+        return "🟢 Strong Password ✅", "Your password is strong! 💪", 100
     elif strength == 3:
-        return "🟡 Medium Password ⚠️", "Almost there! Add more complexity."
+        return "🟡 Medium Password ⚠️", "Almost there! Add more complexity.", 70
+    elif strength == 2:
+        return "🟠 Weak Password ❌", "Password is weak. Try adding more complexity.", 40
     else:
-        return "🔴 Weak Password ❌", "\n".join(feedback)
+        return "🔴 Very Weak Password ❌", "\n".join(feedback), 10
 
 # Streamlit UI
-st.title("🔐 Password Strength Meter")
-st.subheader("Check how strong your password is!")
+st.title("🔐 Advanced Password Strength Meter")
+st.subheader("Check the strength of your password in real-time!")
 
-password = st.text_input("Enter your password:", type="password")
+# Toggle Password Visibility
+show_password = st.checkbox("👁 Show Password")
+password = st.text_input("Enter your password:", type="text" if show_password else "password")
 
 if password:
-    strength_label, feedback = check_password_strength(password)
+    strength_label, feedback, strength_score = check_password_strength(password)
+    
+    # Display Strength Label
     st.markdown(f"### {strength_label}")
+
+    # Strength Bar
+    st.progress(strength_score / 100)
+
+    # Feedback for Improvement
     st.write(feedback)
+
