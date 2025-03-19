@@ -41,8 +41,11 @@ def check_password_strength(password):
         return "🔴 Very Weak Password ❌", "\n".join(feedback), 10
 
 # Streamlit UI
-st.title("🔐 Advanced Password Strength Meter")
+st.title("🔐Password Strength Meter")
 st.subheader("Check the strength of your password in real-time!")
+
+# Password Input (No Show/Hide Option)
+password = st.text_input("Enter your password:", type="password")
 
 if password:
     strength_label, feedback, strength_score = check_password_strength(password)
@@ -50,9 +53,8 @@ if password:
     # Display Strength Label
     st.markdown(f"### {strength_label}")
 
-    # Strength Bar
+    # Strength Progress Bar
     st.progress(strength_score / 100)
 
     # Feedback for Improvement
     st.write(feedback)
-
